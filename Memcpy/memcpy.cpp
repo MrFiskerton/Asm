@@ -122,7 +122,9 @@ void test_memcpy_large (int N = 100) {
 
 	elapsed = finish - start;
 	double naive_time = elapsed.count();
-	std::cout << "Naive: " << naive_time << std::endl;		
+	for (int i = 0; i < size; ++i) { assert(src_str[i] == dst_str[i]);}
+	std::cout << "Naive: " << naive_time << std::endl;
+
 
 	std::cout << "Boost: " << naive_time / asm_time << std::endl;	
 
