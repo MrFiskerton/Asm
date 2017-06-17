@@ -84,7 +84,38 @@ void test_memcpy (size_t N = 100, int range = 100000) {
 	}
 }
 
+void test_memcpy_large () {
+	std::cout << "\n Large test\n";
+
+	srand(time(0));
+	std::chrono::time_point<std::chrono::high_resolution_clock> start, finish;
+	std::chrono::duration<double> elapsed;
+
+	int size = 1 << 28;
+	char* src_str = new char[size];
+	char* dst_str = new char[size];
+
+	std::cout << "Size:  " << size << std::endl;
+	for (int i = 0; i < size - 1; i++) { src_str[i] = 'a' + std::rand() % 26;}
+	src_str[size - 1] = '\0';	
+		
+	
+	start = std::chrono::high_resolution_clock::now();
+	asm_memcpy(dst_str, src_str, size);
+	finish = std::chrono::high_resolution_clock::now();
+
+	elapsed = finish - start;
+	double time = elapsed.count();
+
+	for (int i = 0; i < size; ++i) { assert(src_str[i] == dst_str[i]);}
+	std::cout << "Time:  " << time << std::endl;	
+
+	delete[] src_str;
+	delete[] dst_str;
+}
+
 int main () {
 	test_memcpy(1, 1000000);
+	test_memcpy_large();
 	return 0;
 }
