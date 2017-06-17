@@ -91,7 +91,7 @@ void test_memcpy_large (int N = 100) {
 	std::chrono::time_point<std::chrono::high_resolution_clock> start, finish;
 	std::chrono::duration<double> elapsed;
 
-	int size = (1 << 28) + 8;
+	int size = (1 << 28) + 7;
 	char* src_str = new char[size];
 	char* dst_str = new char[size];
 
