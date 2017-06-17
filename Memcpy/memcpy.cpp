@@ -22,7 +22,7 @@ void* asm_memcpy (void *dst, void const *src, size_t size) {
 		return naive_memcpy(dst, src, size);
 	}
 
-	const size_t step = sizeof(size_t) * 2; // 8 or 16
+	const size_t step = 16;
 
 	char* dst8 = (char*)dst;
     char* src8 = (char*)src;
@@ -51,7 +51,7 @@ void test_memcpy (size_t N = 100, int range = 100000) {
         int a[size], b[size];
 
         std::cout << "---------------------------" << std::endl;
-        std::cout << "Size:  " << size << std::endl;
+        std::cout << "Size:  " << size << " int" << std::endl;
 
         for (auto &t : a) { t = rand();}
 	
@@ -84,7 +84,7 @@ void test_memcpy (size_t N = 100, int range = 100000) {
 	}
 }
 
-void test_memcpy_large () {
+void test_memcpy_large (int N = 100) {
 	std::cout << "\n Large test\n";
 
 	srand(time(0));
@@ -95,20 +95,36 @@ void test_memcpy_large () {
 	char* src_str = new char[size];
 	char* dst_str = new char[size];
 
-	std::cout << "Size:  " << size << std::endl;
+	std::cout << "Size:  " << size << " byte * " << N << std::endl;
 	for (int i = 0; i < size - 1; i++) { src_str[i] = 'a' + std::rand() % 26;}
 	src_str[size - 1] = '\0';	
 		
 	
 	start = std::chrono::high_resolution_clock::now();
-	asm_memcpy(dst_str, src_str, size);
+	for (int i = 0; i != N; i++)
+		asm_memcpy(dst_str, src_str, size);
 	finish = std::chrono::high_resolution_clock::now();
 
 	elapsed = finish - start;
-	double time = elapsed.count();
-
+	double asm_time = elapsed.count();
 	for (int i = 0; i < size; ++i) { assert(src_str[i] == dst_str[i]);}
-	std::cout << "Time:  " << time << std::endl;	
+	std::cout << "Asm:   " << asm_time << std::endl;	
+
+
+//----------------------------------------------------------------------------------
+	for (int i = 0; i < size - 1; i++) { src_str[i] = 'a' + std::rand() % 26;}
+	src_str[size - 1] = '\0';	
+
+	start = std::chrono::high_resolution_clock::now();
+	for (int i = 0; i != N; i++)
+		naive_memcpy(dst_str, src_str, size);
+	finish = std::chrono::high_resolution_clock::now();
+
+	elapsed = finish - start;
+	double naive_time = elapsed.count();
+	std::cout << "Naive: " << naive_time << std::endl;		
+
+	std::cout << "Boost: " << naive_time / asm_time << std::endl;	
 
 	delete[] src_str;
 	delete[] dst_str;
