@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -Wall -O3
+CFLAGS=-c -s -Wall -O3 -msse4.1
 LDFLAGS=
 SOURCES=word_counter.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
