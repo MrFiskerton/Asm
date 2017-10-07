@@ -1,6 +1,8 @@
 #include "trampoline.hpp"
+
 #include <iomanip>
 #include <iostream>
+#include <limits>
 
 #if defined(linux) || defined(__linux) || defined(__linux__) || defined(Macintosh) || defined(macintosh) || (defined(__APPLE__) && defined(__MACH__))
     #define COLOR_SUPPORT
@@ -61,7 +63,7 @@ bool test_less_six_args() {
             return (p1 + p2 + p3 + p4 + p0);
         }
     );
-    return (5.4f == t.get()(1, 1.4, 1, 1.f, 1.f));
+    return (5.4f - t.get()(1, 1.4, 1, 1.f, 1.f) < std::numeric_limits<double>::epsilon());
 }
 
 bool test_more_six_args() {
@@ -90,8 +92,17 @@ bool test_more_six_args() {
         float  c = 2.f, 
                d = 1.f;
         result = result & (10 == p(a, b, c, 1, 1, 1, 1, d));
-    }    
+    }
 
+    {
+        Trampoline<int (double, int, float, int, const int&, double, double, float)> tr (
+                [](double, int, float, int, int, double, double, float a) {
+                    return a;
+                }
+        );
+        auto p = tr.get();
+        result = result & (8 == p(1, 2, 3, 4, 5, 6, 7, 8.8f));
+    }
     return result;
 }
 
