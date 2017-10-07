@@ -70,7 +70,7 @@ size_t asm_word_counter (const char* str, size_t size) {
 
         //Get the mask of result as comparence with 0 and then storage it in accumulator register.
         accumulator = _mm_adds_epu8(_mm_and_si128(_mm_set1_epi8(1), andnot), accumulator);
-
+//*/
         //Check for ovewflow of accumulator.
         //If at least one byte in store is more than 127 or if it is last iteration of loop.
         if (_mm_movemask_epi8(accumulator) != 0 || i + step >= rest) {
@@ -83,6 +83,7 @@ size_t asm_word_counter (const char* str, size_t size) {
 
             accumulator = _mm_set1_epi8(0);
         }
+//*/        
     }
     //----------------------------------------------------------------------/*/    
     // Moving to the end of aligned block

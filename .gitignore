@@ -1,6 +1,6 @@
 ###Additional directories###
 *.directory
-
+*cmake-build-debug
 ### C++ ###
 # Prerequisites
 *.d

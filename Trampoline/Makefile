@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-c -s -Wall -O3 -march=native  -Werror -Wextra
 LDFLAGS=
-SOURCES=word_counter.cpp
+SOURCES=allocator.hpp allocator.cpp trampoline.hpp main.cpp argument_types.hpp instructions.hpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=word_counter
+EXECUTABLE=trampoline_test
 
 all: $(SOURCES) $(EXECUTABLE)
 	
