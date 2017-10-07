@@ -9,6 +9,7 @@ set(SOURCE_FILES
         allocator.hpp
         trampoline.hpp
         argument_types.hpp
-        instructions.hpp)
+        instructions.hpp
+        Writer.hpp)
 
 add_executable(Trampoline ${SOURCE_FILES})

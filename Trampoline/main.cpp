@@ -1,5 +1,6 @@
 #include "trampoline.hpp"
 #include <iomanip>
+#include <iostream>
 
 #if defined(linux) || defined(__linux) || defined(__linux__) || defined(Macintosh) || defined(macintosh) || (defined(__APPLE__) && defined(__MACH__))
     #define COLOR_SUPPORT

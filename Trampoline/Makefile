@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -s -Wall -O3 -march=native  -Werror -Wextra
 LDFLAGS=
-SOURCES=allocator.hpp allocator.cpp trampoline.hpp main.cpp argument_types.hpp instructions.hpp
+SOURCES=allocator.hpp allocator.cpp trampoline.hpp main.cpp argument_types.hpp instructions.hpp Writer.hpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=trampoline_test
 
