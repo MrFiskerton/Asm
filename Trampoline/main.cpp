@@ -58,12 +58,26 @@ bool test_constructors() {
 }
 
 bool test_less_six_args() {
-    Trampoline<float (int, double, int, float, float)> t (
-        [&] (int p0, double p1, int p2, float p3, float p4) {
-            return (p1 + p2 + p3 + p4 + p0);
-        }
-    );
-    return (5.4f - t.get()(1, 1.4, 1, 1.f, 1.f) < std::numeric_limits<double>::epsilon());
+    bool result = true;
+    {
+        Trampoline<float(int, double, int, float, float)> t(
+                [&](int p0, double p1, int p2, float p3, float p4) {
+                    return (p1 + p2 + p3 + p4 + p0);
+                }
+        );
+        result = result & (std::abs(5.4f - t.get()(1, 1.4, 1, 1.f, 1.f)) < std::numeric_limits<float>::epsilon());
+    }
+
+    {
+        Trampoline<double (double, double, double, double, double)> tr (
+                [](double a, double b, double c, double d, double e) {
+                    return a + b + c + d + e;
+                }
+        );
+        auto p = tr.get();
+        result = result & (std::abs(5.2 - p(1.0, 1.2, 1, 1, 1)) < std::numeric_limits<double>::epsilon());
+    }
+    return result;
 }
 
 bool test_more_six_args() {
